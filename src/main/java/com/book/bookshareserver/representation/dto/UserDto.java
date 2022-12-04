@@ -1,11 +1,22 @@
 package com.book.bookshareserver.representation.dto;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 public class UserDto {
     private Long id;
+    @Size(min = 1, max = 50)
     private String name;
+
+    @Email  // todo msg
+    @Pattern(regexp = "^.+@.+\\..+$")  // todo msg
+    @Size(min = 5, max = 100)  // todo msg
     private String email;
+
+    @Pattern(regexp = "^[a-zA-Z]+.*$")  // todo msg
+    @Size(min = 6, max = 100)  // todo msg
     private String password;
     private String phoneNumber;
     private List<PublicationDto> publicationList;
