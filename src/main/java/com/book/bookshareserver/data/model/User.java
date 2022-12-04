@@ -1,6 +1,7 @@
 package com.book.bookshareserver.data.model;
 
 import javax.persistence.*;
+import java.sql.Ref;
 import java.util.List;
 
 @Entity
@@ -25,6 +26,9 @@ public class User {
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
     private List<Publication> publicationList;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<RefreshToken> refreshTokenList;
 
     public Long getId() {
         return id;
@@ -72,6 +76,14 @@ public class User {
 
     public void setPublicationList(List<Publication> publicationList) {
         this.publicationList = publicationList;
+    }
+
+    public List<RefreshToken> getRefreshTokenList() {
+        return refreshTokenList;
+    }
+
+    public void setRefreshTokenList(List<RefreshToken> refreshTokenList) {
+        this.refreshTokenList = refreshTokenList;
     }
 
     public User(){
