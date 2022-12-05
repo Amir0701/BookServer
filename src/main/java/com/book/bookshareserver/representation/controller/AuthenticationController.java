@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.naming.AuthenticationException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.concurrent.ExecutionException;
 
@@ -37,6 +40,15 @@ public class AuthenticationController {
     public ResponseEntity<RefreshTokenDto> login(@RequestBody UserDto userDto)
             throws ExecutionException, InterruptedException {
         RefreshTokenDto refreshTokenDto = authenticationService.login(userDto).get();
+
+        return ResponseEntity.ok(refreshTokenDto);
+    }
+
+    @PostMapping("/token")
+    public ResponseEntity<RefreshTokenDto> getNewAccessToken(HttpServletRequest httpServletRequest,
+                                                             HttpServletResponse httpServletResponse)
+            throws AuthenticationException, ExecutionException, InterruptedException {
+        RefreshTokenDto refreshTokenDto = authenticationService.getNewAccessToken(httpServletRequest, httpServletResponse).get();
 
         return ResponseEntity.ok(refreshTokenDto);
     }

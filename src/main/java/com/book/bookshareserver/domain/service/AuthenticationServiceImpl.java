@@ -2,8 +2,10 @@ package com.book.bookshareserver.domain.service;
 
 import com.book.bookshareserver.data.model.RefreshToken;
 import com.book.bookshareserver.data.model.User;
+import com.book.bookshareserver.data.repository.RefreshTokenRepository;
 import com.book.bookshareserver.data.repository.UserRepository;
 import com.book.bookshareserver.domain.exception.InvalidEntityException;
+import com.book.bookshareserver.domain.security.auth.AccessTokenGetter;
 import com.book.bookshareserver.domain.security.auth.JwtTokenProvider;
 import com.book.bookshareserver.representation.dto.RefreshTokenDto;
 import com.book.bookshareserver.representation.dto.UserDto;
@@ -16,6 +18,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
+import javax.naming.AuthenticationException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -34,19 +39,25 @@ public class AuthenticationServiceImpl implements AuthenticationService{
     private final RefreshTokenService refreshTokenService;
     private final UserService userService;
     private UserRepository userRepository;
+    private AccessTokenGetter accessTokenGetter;
+    private RefreshTokenRepository refreshTokenRepository;
 
     public AuthenticationServiceImpl(JwtTokenProvider jwtTokenProvider,
                                      PasswordEncoder passwordEncoder,
                                      RefreshTokenDtoConverter refreshTokenDtoConverter,
                                      RefreshTokenService refreshTokenService,
                                      UserService userService,
-                                     UserRepository userRepository){
+                                     UserRepository userRepository,
+                                     AccessTokenGetter accessTokenGetter,
+                                     RefreshTokenRepository refreshTokenRepository){
         this.jwtTokenProvider = jwtTokenProvider;
         this.passwordEncoder = passwordEncoder;
         this.refreshTokenDtoConverter = refreshTokenDtoConverter;
         this.refreshTokenService = refreshTokenService;
         this.userService = userService;
         this.userRepository = userRepository;
+        this.accessTokenGetter = accessTokenGetter;
+        this.refreshTokenRepository = refreshTokenRepository;
     }
 
 
@@ -84,15 +95,52 @@ public class AuthenticationServiceImpl implements AuthenticationService{
         return CompletableFuture.completedFuture(generateAndSaveSecurityTokens(regUser));
     }
 
-    private RefreshTokenDto generateAndSaveSecurityTokens(User user){
-        String accessToken = jwtTokenProvider.createToken(user.getId(), accessTokenValidityTimeMs);
-        String refreshToken = jwtTokenProvider.createToken(user.getId(), refreshTokenValidityTimeMs);
-
-        RefreshToken refreshTokenEnt = refreshTokenService.createRefreshTokenEntity(
-                refreshToken, refreshTokenValidityTimeMs, user
+    @Async
+    @Override
+    public CompletableFuture<RefreshTokenDto> getNewAccessToken(HttpServletRequest httpServletRequest,
+                                                                HttpServletResponse httpServletResponse)
+            throws AuthenticationException {
+        String token = accessTokenGetter.getToken(httpServletRequest).orElseThrow(
+                () -> new AuthenticationException(
+                        "Для обновления токенов безопасности в запросе должен присутствовать refresh токен."
+                )
         );
-        refreshTokenService.save(refreshTokenEnt);
+
+        RefreshToken refreshToken = refreshTokenRepository.findRefreshTokenByToken(token);
+        if(refreshToken == null){
+            throw new AuthenticationException("Refresh токен невалиден или просрочен. Войдите в аккаунт заново.");
+        }
+
+        if(refreshToken.isExpired()){
+            throw new AuthenticationException("Refresh токен просрочен. Войдите в аккаунт заново.");
+        }
+
+        User currentUser = refreshToken.getUser();
+        RefreshTokenDto refreshTokenDto = generateAndSaveSecurityTokens(currentUser);
+
+
+        return CompletableFuture.completedFuture(refreshTokenDto);
+    }
+
+    private RefreshTokenDto generateAndSaveSecurityTokens(User user){
+        String accessToken = generateAccessToken(user);
+        String refreshToken = generateRefreshToken(user);
 
         return refreshTokenDtoConverter.toRefreshTokenDto(user, accessToken, refreshToken);
+    }
+
+    private String generateAccessToken(User user){
+        return jwtTokenProvider.createToken(user.getId(), accessTokenValidityTimeMs);
+    }
+
+    private String generateRefreshToken(User user){
+        String refreshToken = jwtTokenProvider.createToken(user.getId(), refreshTokenValidityTimeMs);
+
+        RefreshToken refreshTokenEntity = refreshTokenService.createRefreshTokenEntity(
+                refreshToken, refreshTokenValidityTimeMs, user
+        );
+        refreshTokenService.save(refreshTokenEntity);
+
+        return refreshToken;
     }
 }
