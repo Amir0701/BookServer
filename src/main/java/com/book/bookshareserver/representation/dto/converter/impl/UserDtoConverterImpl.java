@@ -44,7 +44,7 @@ public class UserDtoConverterImpl implements UserDtoConverter {
         UserDto userDto = new UserDto();
         userDto.setId(user.getId());
         userDto.setName(user.getName());
-        userDto.setEmail(user.getName());
+        userDto.setEmail(user.getEmail());
         userDto.setPassword(user.getPassword());
         userDto.setPhoneNumber(user.getPhoneNumber());
         userDto.setPublicationDtoList(
