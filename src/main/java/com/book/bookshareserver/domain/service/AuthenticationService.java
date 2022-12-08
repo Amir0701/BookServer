@@ -14,6 +14,6 @@ public interface AuthenticationService {
 
     CompletableFuture<RefreshTokenDto> register(UserDto userDto, BindingResult bindingResult);
 
-    CompletableFuture<RefreshTokenDto> getNewAccessToken(HttpServletRequest httpServletRequest,
-                                                         HttpServletResponse httpServletResponse) throws AuthenticationException;
+    CompletableFuture<RefreshTokenDto> getNewTokens(HttpServletRequest httpServletRequest,
+                                                    HttpServletResponse httpServletResponse) throws AuthenticationException;
 }

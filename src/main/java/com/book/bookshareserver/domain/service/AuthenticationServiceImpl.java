@@ -97,8 +97,8 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 
     @Async
     @Override
-    public CompletableFuture<RefreshTokenDto> getNewAccessToken(HttpServletRequest httpServletRequest,
-                                                                HttpServletResponse httpServletResponse)
+    public CompletableFuture<RefreshTokenDto> getNewTokens(HttpServletRequest httpServletRequest,
+                                                           HttpServletResponse httpServletResponse)
             throws AuthenticationException {
         String token = accessTokenGetter.getToken(httpServletRequest).orElseThrow(
                 () -> new AuthenticationException(
@@ -118,6 +118,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
         User currentUser = refreshToken.getUser();
         RefreshTokenDto refreshTokenDto = generateAndSaveSecurityTokens(currentUser);
 
+        refreshTokenRepository.delete(refreshToken);
 
         return CompletableFuture.completedFuture(refreshTokenDto);
     }

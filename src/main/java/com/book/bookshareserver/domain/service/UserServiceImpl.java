@@ -5,6 +5,7 @@ import com.book.bookshareserver.data.repository.UserRepository;
 import com.book.bookshareserver.representation.dto.UserDto;
 import com.book.bookshareserver.representation.dto.converter.UserDtoConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -40,12 +41,23 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDto getUserById(Long id) throws UsernameNotFoundException{
+        User currentUser = getCurrentUser();
+
+        if(currentUser.getId() != id){
+            throw new UsernameNotFoundException("");
+        }
+
         User user = userRepository.findById(id).orElseThrow(
                 () -> new UsernameNotFoundException("Пользователь не найден")
         );
 
         UserDto userDto = userDtoConverter.toUserDto(user);
         return userDto;
+    }
+
+    @Override
+    public User getCurrentUser() {
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
     private void checkUniqueEmail(User user){

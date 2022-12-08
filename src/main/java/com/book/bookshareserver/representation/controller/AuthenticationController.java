@@ -48,7 +48,7 @@ public class AuthenticationController {
     public ResponseEntity<RefreshTokenDto> getNewAccessToken(HttpServletRequest httpServletRequest,
                                                              HttpServletResponse httpServletResponse)
             throws AuthenticationException, ExecutionException, InterruptedException {
-        RefreshTokenDto refreshTokenDto = authenticationService.getNewAccessToken(httpServletRequest, httpServletResponse).get();
+        RefreshTokenDto refreshTokenDto = authenticationService.getNewTokens(httpServletRequest, httpServletResponse).get();
 
         return ResponseEntity.ok(refreshTokenDto);
     }
