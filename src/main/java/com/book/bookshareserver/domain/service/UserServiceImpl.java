@@ -35,8 +35,8 @@ public class UserServiceImpl implements UserService{
         newUser.setRefreshTokenList(Collections.emptyList());
         checkUniqueEmail(newUser);
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-        userRepository.saveAndFlush(newUser);
-        return newUser;
+        User regUser = userRepository.saveAndFlush(newUser);
+        return regUser;
     }
 
     @Override
