@@ -31,4 +31,9 @@ public class PublicationController {
     public ResponseEntity<List<PublicationDto>> getPublicationsByUserId(@RequestParam Long userId){
         return ResponseEntity.ok(publicationService.getPublicationsByUser(userId));
     }
+
+    @GetMapping(params = "cityId")
+    public ResponseEntity<List<PublicationDto>> getPublicationsByCityId(@RequestParam Long cityId){
+        return ResponseEntity.ok(publicationService.getPublicationsByCity(cityId));
+    }
 }

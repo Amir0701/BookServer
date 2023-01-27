@@ -7,4 +7,5 @@ import java.util.List;
 public interface PublicationService {
     List<PublicationDto> getPublicationsByCategory(Long categoryId);
     List<PublicationDto> getPublicationsByUser(Long userId);
+    List<PublicationDto> getPublicationsByCity(Long cityId);
 }
