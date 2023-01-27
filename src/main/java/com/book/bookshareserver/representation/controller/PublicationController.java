@@ -21,7 +21,6 @@ public class PublicationController {
         this.publicationService = publicationService;
     }
 
-
     @GetMapping(params = "categoryId")
     public ResponseEntity<List<PublicationDto>> getPublicationsByCategoryId(@RequestParam Long categoryId){
         return ResponseEntity.ok(publicationService.getPublicationsByCategory(categoryId));
@@ -35,5 +34,11 @@ public class PublicationController {
     @GetMapping(params = "cityId")
     public ResponseEntity<List<PublicationDto>> getPublicationsByCityId(@RequestParam Long cityId){
         return ResponseEntity.ok(publicationService.getPublicationsByCity(cityId));
+    }
+
+    @GetMapping(params = {"cityId", "categoryId"})
+    public ResponseEntity<List<PublicationDto>> getPublicationsByCityIdAndCategoryId(@RequestParam Long cityId,
+                                                                                     @RequestParam Long categoryId){
+        return ResponseEntity.ok(publicationService.getPublicationsByCityAndCategory(cityId, categoryId));
     }
 }

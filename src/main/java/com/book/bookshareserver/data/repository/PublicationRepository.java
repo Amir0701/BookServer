@@ -11,4 +11,6 @@ public interface PublicationRepository extends JpaRepository<Publication, Long> 
     List<Publication> getPublicationsByUserId(Long userId);
 
     List<Publication> getPublicationsByCityId(Long cityId);
+
+    List<Publication> getPublicationsByCityAndCategory(Long cityId, Long categoryId);
 }

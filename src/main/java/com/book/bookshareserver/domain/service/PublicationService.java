@@ -8,4 +8,5 @@ public interface PublicationService {
     List<PublicationDto> getPublicationsByCategory(Long categoryId);
     List<PublicationDto> getPublicationsByUser(Long userId);
     List<PublicationDto> getPublicationsByCity(Long cityId);
+    List<PublicationDto> getPublicationsByCityAndCategory(Long cityId, Long categoryId);
 }

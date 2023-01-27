@@ -49,4 +49,13 @@ public class PublicationServiceImpl implements PublicationService{
                 .map(publicationDtoConverter::toPublicationDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<PublicationDto> getPublicationsByCityAndCategory(Long cityId, Long categoryId) {
+        List<Publication> publications = publicationRepository.getPublicationsByCityAndCategory(cityId, categoryId);
+
+        return publications.stream()
+                .map(publicationDtoConverter::toPublicationDto)
+                .collect(Collectors.toList());
+    }
 }
