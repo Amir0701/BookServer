@@ -40,9 +40,9 @@ public class PublicationDtoConverterImpl implements PublicationDtoConverter {
     @Override
     public PublicationDto toPublicationDto(Publication publication) {
         PublicationDto publicationDto = new PublicationDto();
-        publicationDto.setId(publicationDto.getId());
-        publicationDto.setName(publicationDto.getName());
-        publicationDto.setDescription(publicationDto.getDescription());
+        publicationDto.setId(publication.getId());
+        publicationDto.setName(publication.getName());
+        publicationDto.setDescription(publication.getDescription());
         publicationDto.setPublishedAt(publication.getPublishedAt());
         publicationDto.setCityId(publication.getCity().getId());
         publicationDto.setCategoryId(publication.getCategory().getId());

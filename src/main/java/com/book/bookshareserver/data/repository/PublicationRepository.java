@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface PublicationRepository extends JpaRepository<Publication, Long> {
     List<Publication> getPublicationsByCategoryId(Long categoryId);
+
+    List<Publication> getPublicationsByUserId(Long userId);
 }

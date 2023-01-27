@@ -21,7 +21,7 @@ public class ImageDtoConverterImpl implements ImageDtoConverter {
     public ImageDto toImageDto(Image image) {
         ImageDto imageDto = new ImageDto();
         imageDto.setId(image.getId());
-        imageDto.setPath(imageDto.getPath());
+        imageDto.setPath(image.getPath());
         imageDto.setPublicationId(image.getId());
         return imageDto;
     }

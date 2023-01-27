@@ -22,8 +22,13 @@ public class PublicationController {
     }
 
 
-    @GetMapping
+    @GetMapping(params = "categoryId")
     public ResponseEntity<List<PublicationDto>> getPublicationsByCategoryId(@RequestParam Long categoryId){
         return ResponseEntity.ok(publicationService.getPublicationsByCategory(categoryId));
+    }
+
+    @GetMapping(params = "userId")
+    public ResponseEntity<List<PublicationDto>> getPublicationsByUserId(@RequestParam Long userId){
+        return ResponseEntity.ok(publicationService.getPublicationsByUser(userId));
     }
 }

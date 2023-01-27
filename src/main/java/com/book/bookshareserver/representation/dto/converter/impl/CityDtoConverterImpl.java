@@ -41,7 +41,7 @@ public class CityDtoConverterImpl implements CityDtoConverter {
     @Override
     public CityDto toCityDto(City city) {
         CityDto cityDto = new CityDto();
-        cityDto.setId(cityDto.getId());
+        cityDto.setId(city.getId());
         cityDto.setName(city.getName());
         cityDto.setPublicationDtoList(
                 city.getPublicationList()

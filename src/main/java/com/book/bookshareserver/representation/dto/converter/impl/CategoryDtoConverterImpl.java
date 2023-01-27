@@ -40,8 +40,8 @@ public class CategoryDtoConverterImpl implements CategoryDtoConverter {
     @Override
     public CategoryDto toCategoryDto(Category category) {
         CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setId(categoryDto.getId());
-        categoryDto.setName(categoryDto.getName());
+        categoryDto.setId(category.getId());
+        categoryDto.setName(category.getName());
         categoryDto.setPublicationDtoList(
                 category.getPublicationList()
                         .stream()

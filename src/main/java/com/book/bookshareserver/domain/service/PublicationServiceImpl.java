@@ -31,4 +31,13 @@ public class PublicationServiceImpl implements PublicationService{
 
         return publicationDtoList;
     }
+
+    @Override
+    public List<PublicationDto> getPublicationsByUser(Long userId) {
+        List<Publication> publications = publicationRepository.getPublicationsByUserId(userId);
+
+        return publications.stream()
+                .map(publicationDtoConverter::toPublicationDto)
+                .collect(Collectors.toList());
+    }
 }
