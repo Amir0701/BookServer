@@ -34,6 +34,14 @@ public class Publication {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "publication")
     private List<Image> images;
 
+
+    @ManyToMany(mappedBy = "favorites")
+    private List<User> choosenAsFavoriteBy;
+
+
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "publication")
+//    private List<FavPub> favPubs;
+
     public Long getId() {
         return id;
     }
@@ -97,6 +105,14 @@ public class Publication {
     public void setImages(List<Image> images) {
         this.images = images;
     }
+
+//    public List<FavPub> getFavPubs() {
+//        return favPubs;
+//    }
+//
+//    public void setFavPubs(List<FavPub> favPubs) {
+//        this.favPubs = favPubs;
+//    }
 
     public Publication(){
 

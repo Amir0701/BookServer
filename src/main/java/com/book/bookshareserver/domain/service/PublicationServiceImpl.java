@@ -58,4 +58,11 @@ public class PublicationServiceImpl implements PublicationService{
                 .map(publicationDtoConverter::toPublicationDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public PublicationDto addPublication(PublicationDto publicationDto) {
+        Publication publication = publicationDtoConverter.toPublication(publicationDto);
+        Publication newPublication = publicationRepository.saveAndFlush(publication);
+        return publicationDtoConverter.toPublicationDto(newPublication);
+    }
 }

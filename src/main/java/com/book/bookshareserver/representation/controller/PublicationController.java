@@ -5,10 +5,7 @@ import com.book.bookshareserver.domain.service.PublicationService;
 import com.book.bookshareserver.representation.dto.PublicationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,5 +37,10 @@ public class PublicationController {
     public ResponseEntity<List<PublicationDto>> getPublicationsByCityIdAndCategoryId(@RequestParam Long cityId,
                                                                                      @RequestParam Long categoryId){
         return ResponseEntity.ok(publicationService.getPublicationsByCityAndCategory(cityId, categoryId));
+    }
+
+    @PostMapping
+    public ResponseEntity<PublicationDto> addPublication(@RequestBody PublicationDto publicationDto){
+        return ResponseEntity.ok(publicationService.addPublication(publicationDto));
     }
 }
