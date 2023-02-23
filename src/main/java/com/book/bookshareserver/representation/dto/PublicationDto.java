@@ -6,8 +6,8 @@ import java.util.List;
 public class PublicationDto {
     private Long id;
     private Long userId;
-    private Long categoryId;
-    private Long cityId;
+    private CategoryDto category;
+    private CityDto city;
     private String description;
     private String name;
     private Timestamp publishedAt;
@@ -29,20 +29,20 @@ public class PublicationDto {
         this.userId = userId;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
+    public CategoryDto getCategory() {
+        return category;
     }
 
-    public void setCategoryId(Long id) {
-        this.categoryId = id;
+    public void setCategory(CategoryDto categoryDto) {
+        this.category = categoryDto;
     }
 
-    public Long getCityId() {
-        return cityId;
+    public CityDto getCityDto() {
+        return city;
     }
 
-    public void setCityId(Long cityId) {
-        this.cityId = cityId;
+    public void setCityDto(CityDto cityDto) {
+        this.city = cityDto;
     }
 
     public String getDescription() {

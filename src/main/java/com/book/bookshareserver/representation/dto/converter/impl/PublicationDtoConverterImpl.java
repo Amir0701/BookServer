@@ -1,7 +1,5 @@
 package com.book.bookshareserver.representation.dto.converter.impl;
 
-import com.book.bookshareserver.data.model.Category;
-import com.book.bookshareserver.data.model.City;
 import com.book.bookshareserver.data.model.Publication;
 import com.book.bookshareserver.data.model.User;
 import com.book.bookshareserver.representation.dto.PublicationDto;
@@ -14,10 +12,16 @@ import java.util.stream.Collectors;
 @Component
 public class PublicationDtoConverterImpl implements PublicationDtoConverter {
     private final ImageDtoConverter imageDtoConverter;
+    private final CategoryDtoConverter categoryDtoConverter;
+    private final CityDtoConverter cityDtoConverter;
 
     @Autowired
-    public PublicationDtoConverterImpl(ImageDtoConverter imageDtoConverter){
+    public PublicationDtoConverterImpl(ImageDtoConverter imageDtoConverter,
+                                       CategoryDtoConverter categoryDtoConverter,
+                                       CityDtoConverter cityDtoConverter){
         this.imageDtoConverter = imageDtoConverter;
+        this.categoryDtoConverter = categoryDtoConverter;
+        this.cityDtoConverter = cityDtoConverter;
     }
 
     @Override
@@ -27,8 +31,8 @@ public class PublicationDtoConverterImpl implements PublicationDtoConverter {
         publication.setName(publicationDto.getName());
         publication.setPublishedAt(publicationDto.getPublishedAt());
         publication.setDescription(publicationDto.getDescription());
-        publication.setCategory(new Category(publicationDto.getCategoryId()));
-        publication.setCity(new City(publicationDto.getCityId()));
+        publication.setCategory(categoryDtoConverter.toCategory(publicationDto.getCategory()));
+        publication.setCity(cityDtoConverter.toCity(publicationDto.getCityDto()));
         publication.setUser(new User(publicationDto.getUserId()));
         publication.setImages(publicationDto.getImagesDto()
                 .stream()
@@ -44,8 +48,8 @@ public class PublicationDtoConverterImpl implements PublicationDtoConverter {
         publicationDto.setName(publication.getName());
         publicationDto.setDescription(publication.getDescription());
         publicationDto.setPublishedAt(publication.getPublishedAt());
-        publicationDto.setCityId(publication.getCity().getId());
-        publicationDto.setCategoryId(publication.getCategory().getId());
+        publicationDto.setCityDto(cityDtoConverter.toCityDto(publication.getCity()));
+        publicationDto.setCategory(categoryDtoConverter.toCategoryDto(publication.getCategory()));
         publicationDto.setUserId(publication.getUser().getId());
         publicationDto.setImagesDto(publication.getImages()
                 .stream()

@@ -5,6 +5,7 @@ import com.book.bookshareserver.representation.dto.CityDto;
 import com.book.bookshareserver.representation.dto.converter.CityDtoConverter;
 import com.book.bookshareserver.representation.dto.converter.PublicationDtoConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class CityDtoConverterImpl implements CityDtoConverter {
     private final PublicationDtoConverter publicationDtoConverter;
 
     @Autowired
-    public CityDtoConverterImpl(PublicationDtoConverter publicationDtoConverter){
+    public CityDtoConverterImpl(@Lazy PublicationDtoConverter publicationDtoConverter){
         this.publicationDtoConverter = publicationDtoConverter;
     }
 

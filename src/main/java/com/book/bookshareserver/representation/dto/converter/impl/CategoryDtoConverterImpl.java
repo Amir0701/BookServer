@@ -5,6 +5,7 @@ import com.book.bookshareserver.representation.dto.CategoryDto;
 import com.book.bookshareserver.representation.dto.converter.CategoryDtoConverter;
 import com.book.bookshareserver.representation.dto.converter.PublicationDtoConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class CategoryDtoConverterImpl implements CategoryDtoConverter {
     private final PublicationDtoConverter publicationDtoConverter;
 
     @Autowired
-    public CategoryDtoConverterImpl(PublicationDtoConverter publicationDtoConverter){
+    public CategoryDtoConverterImpl(@Lazy PublicationDtoConverter publicationDtoConverter){
         this.publicationDtoConverter = publicationDtoConverter;
     }
 

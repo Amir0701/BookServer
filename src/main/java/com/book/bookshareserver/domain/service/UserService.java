@@ -6,6 +6,6 @@ import com.book.bookshareserver.representation.dto.UserDto;
 public interface UserService {
     User save(UserDto user);
     UserDto getUserById(Long id);
-
+    void addPublicationToFavorite(Long userId, Long publicationId);
     User getCurrentUser();
 }

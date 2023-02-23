@@ -56,6 +56,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public void addPublicationToFavorite(Long userId, Long publicationId) {
+        userRepository.markPublicationAsFavorite(userId, publicationId);
+    }
+
+    @Override
     public User getCurrentUser() {
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
