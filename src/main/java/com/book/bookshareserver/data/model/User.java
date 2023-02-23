@@ -31,7 +31,7 @@ public class User {
     private List<RefreshToken> refreshTokenList;
 
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(
             name = "favorite",
             joinColumns = @JoinColumn(name = "user_id"),

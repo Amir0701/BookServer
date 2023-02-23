@@ -34,14 +34,14 @@ public class PublicationDto {
     }
 
     public void setCategoryId(Long id) {
-        this.categoryId = categoryId;
+        this.categoryId = id;
     }
 
     public Long getCityId() {
         return cityId;
     }
 
-    public void setCityId(Long city) {
+    public void setCityId(Long cityId) {
         this.cityId = cityId;
     }
 
