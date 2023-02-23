@@ -20,7 +20,7 @@ public class UserController {
         return ResponseEntity.ok(userDto);
     }
 
-    @PostMapping("/favorite")
+    @PostMapping(value = "/favorite", params = {"userId", "publicationId"})
     public void addPublicationFavorite(@RequestParam Long userId,
                                        @RequestParam Long publicationId){
         userService.addPublicationToFavorite(userId, publicationId);

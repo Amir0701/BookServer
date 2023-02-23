@@ -43,4 +43,9 @@ public class PublicationController {
     public ResponseEntity<PublicationDto> addPublication(@RequestBody PublicationDto publicationDto){
         return ResponseEntity.ok(publicationService.addPublication(publicationDto));
     }
+
+    @GetMapping(value = "/favorite", params = "userId")
+    public ResponseEntity<List<PublicationDto>> getFavoritePublicationByUserId(@RequestParam Long userId){
+        return ResponseEntity.ok(publicationService.getFavoritePublicationsByUserId(userId));
+    }
 }

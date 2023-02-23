@@ -65,4 +65,12 @@ public class PublicationServiceImpl implements PublicationService{
         Publication newPublication = publicationRepository.saveAndFlush(publication);
         return publicationDtoConverter.toPublicationDto(newPublication);
     }
+
+    @Override
+    public List<PublicationDto> getFavoritePublicationsByUserId(Long userId) {
+        List<Publication> publications = publicationRepository.getPublicationsByChoosenAsFavoriteByAndUserId(userId);
+        return publications.stream()
+                .map(publicationDtoConverter::toPublicationDto)
+                .collect(Collectors.toList());
+    }
 }
