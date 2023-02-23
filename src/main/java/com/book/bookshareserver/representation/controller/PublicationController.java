@@ -6,6 +6,7 @@ import com.book.bookshareserver.representation.dto.PublicationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -40,8 +41,9 @@ public class PublicationController {
     }
 
     @PostMapping
-    public ResponseEntity<PublicationDto> addPublication(@RequestBody PublicationDto publicationDto){
-        return ResponseEntity.ok(publicationService.addPublication(publicationDto));
+    public ResponseEntity<PublicationDto> addPublication(@RequestBody PublicationDto publicationDto,
+                                                         @RequestParam(value = "files") MultipartFile[] multipartFiles){
+        return ResponseEntity.ok(publicationService.addPublication(publicationDto, multipartFiles));
     }
 
     @GetMapping(value = "/favorite", params = "userId")

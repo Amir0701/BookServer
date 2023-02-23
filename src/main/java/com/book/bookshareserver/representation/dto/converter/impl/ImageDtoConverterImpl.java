@@ -22,7 +22,7 @@ public class ImageDtoConverterImpl implements ImageDtoConverter {
         ImageDto imageDto = new ImageDto();
         imageDto.setId(image.getId());
         imageDto.setPath(image.getPath());
-        imageDto.setPublicationId(image.getId());
+        imageDto.setPublicationId(image.getPublication().getId());
         return imageDto;
     }
 }

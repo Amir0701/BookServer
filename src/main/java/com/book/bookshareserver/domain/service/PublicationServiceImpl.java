@@ -6,6 +6,7 @@ import com.book.bookshareserver.representation.dto.PublicationDto;
 import com.book.bookshareserver.representation.dto.converter.PublicationDtoConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,12 +15,15 @@ import java.util.stream.Collectors;
 public class PublicationServiceImpl implements PublicationService{
     private final PublicationRepository publicationRepository;
     private final PublicationDtoConverter publicationDtoConverter;
+    private final ImageService imageService;
 
     @Autowired
     public PublicationServiceImpl(PublicationRepository publicationRepository,
-                                  PublicationDtoConverter publicationDtoConverter){
+                                  PublicationDtoConverter publicationDtoConverter,
+                                  ImageService imageService){
         this.publicationRepository = publicationRepository;
         this.publicationDtoConverter = publicationDtoConverter;
+        this.imageService = imageService;
     }
 
     @Override
@@ -60,9 +64,11 @@ public class PublicationServiceImpl implements PublicationService{
     }
 
     @Override
-    public PublicationDto addPublication(PublicationDto publicationDto) {
+    public PublicationDto addPublication(PublicationDto publicationDto,
+                                         MultipartFile[] multipartFiles) {
         Publication publication = publicationDtoConverter.toPublication(publicationDto);
         Publication newPublication = publicationRepository.saveAndFlush(publication);
+        imageService.addImage(multipartFiles, newPublication);
         return publicationDtoConverter.toPublicationDto(newPublication);
     }
 

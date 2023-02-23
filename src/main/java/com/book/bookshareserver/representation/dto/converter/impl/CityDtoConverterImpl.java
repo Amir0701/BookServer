@@ -13,12 +13,12 @@ import java.util.stream.Collectors;
 
 @Component
 public class CityDtoConverterImpl implements CityDtoConverter {
-    private final PublicationDtoConverter publicationDtoConverter;
+    //private final PublicationDtoConverter publicationDtoConverter;
 
-    @Autowired
-    public CityDtoConverterImpl(@Lazy PublicationDtoConverter publicationDtoConverter){
-        this.publicationDtoConverter = publicationDtoConverter;
-    }
+//    @Autowired
+//    public CityDtoConverterImpl(@Lazy PublicationDtoConverter publicationDtoConverter){
+//        this.publicationDtoConverter = publicationDtoConverter;
+//    }
 
     @Override
     public City toCity(CityDto cityDto) {
@@ -26,12 +26,12 @@ public class CityDtoConverterImpl implements CityDtoConverter {
         city.setId(cityDto.getId());
         city.setName(cityDto.getName());
         if(cityDto.getPublicationDtoList() != null){
-            city.setPublicationList(
-                    cityDto.getPublicationDtoList()
-                            .stream()
-                            .map(publicationDtoConverter::toPublication)
-                            .collect(Collectors.toList())
-            );
+//            city.setPublicationList(
+//                    cityDto.getPublicationDtoList()
+//                            .stream()
+//                            .map(publicationDtoConverter::toPublication)
+//                            .collect(Collectors.toList())
+//            );
         }
         else {
             city.setPublicationList(new ArrayList<>());
@@ -44,12 +44,12 @@ public class CityDtoConverterImpl implements CityDtoConverter {
         CityDto cityDto = new CityDto();
         cityDto.setId(city.getId());
         cityDto.setName(city.getName());
-        cityDto.setPublicationDtoList(
-                city.getPublicationList()
-                        .stream()
-                        .map(publicationDtoConverter::toPublicationDto)
-                        .collect(Collectors.toList())
-        );
+//        cityDto.setPublicationDtoList(
+//                city.getPublicationList()
+//                        .stream()
+//                        .map(publicationDtoConverter::toPublicationDto)
+//                        .collect(Collectors.toList())
+//        );
         return cityDto;
     }
 }
