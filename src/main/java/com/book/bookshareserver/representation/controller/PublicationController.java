@@ -41,9 +41,8 @@ public class PublicationController {
     }
 
     @PostMapping
-    public ResponseEntity<PublicationDto> addPublication(@RequestBody PublicationDto publicationDto,
-                                                         @RequestPart(value = "files") MultipartFile[] multipartFiles){
-        return ResponseEntity.ok(publicationService.addPublication(publicationDto, multipartFiles));
+    public ResponseEntity<PublicationDto> addPublication(@RequestBody PublicationDto publicationDto){
+        return ResponseEntity.ok(publicationService.addPublication(publicationDto));
     }
 
     @GetMapping(value = "/favorite", params = "userId")

@@ -64,11 +64,9 @@ public class PublicationServiceImpl implements PublicationService{
     }
 
     @Override
-    public PublicationDto addPublication(PublicationDto publicationDto,
-                                         MultipartFile[] multipartFiles) {
+    public PublicationDto addPublication(PublicationDto publicationDto) {
         Publication publication = publicationDtoConverter.toPublication(publicationDto);
         Publication newPublication = publicationRepository.saveAndFlush(publication);
-        imageService.addImage(multipartFiles, newPublication);
         return publicationDtoConverter.toPublicationDto(newPublication);
     }
 
