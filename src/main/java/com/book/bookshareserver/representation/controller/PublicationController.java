@@ -42,7 +42,7 @@ public class PublicationController {
 
     @PostMapping
     public ResponseEntity<PublicationDto> addPublication(@RequestBody PublicationDto publicationDto,
-                                                         @RequestParam(value = "files") MultipartFile[] multipartFiles){
+                                                         @RequestPart(value = "files") MultipartFile[] multipartFiles){
         return ResponseEntity.ok(publicationService.addPublication(publicationDto, multipartFiles));
     }
 

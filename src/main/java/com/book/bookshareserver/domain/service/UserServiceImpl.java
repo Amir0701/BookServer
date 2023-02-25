@@ -65,6 +65,12 @@ public class UserServiceImpl implements UserService{
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
+    @Override
+    public UserDto getAuthUser() {
+        User user = getCurrentUser();
+        return userDtoConverter.toUserDto(user);
+    }
+
     private void checkUniqueEmail(User user){
         if(userRepository.existsByEmail(user.getEmail())){
             throw new EntityExistsException();

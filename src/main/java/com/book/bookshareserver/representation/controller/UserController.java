@@ -25,4 +25,9 @@ public class UserController {
                                        @RequestParam Long publicationId){
         userService.addPublicationToFavorite(userId, publicationId);
     }
+
+    @GetMapping
+    public ResponseEntity<UserDto> getAuthUser(){
+        return ResponseEntity.ok(userService.getAuthUser());
+    }
 }

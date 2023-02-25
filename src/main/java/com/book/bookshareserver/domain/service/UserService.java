@@ -8,4 +8,5 @@ public interface UserService {
     UserDto getUserById(Long id);
     void addPublicationToFavorite(Long userId, Long publicationId);
     User getCurrentUser();
+    UserDto getAuthUser();
 }
