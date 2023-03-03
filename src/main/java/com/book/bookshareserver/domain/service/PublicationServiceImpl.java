@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -66,6 +69,7 @@ public class PublicationServiceImpl implements PublicationService{
     @Override
     public PublicationDto addPublication(PublicationDto publicationDto) {
         Publication publication = publicationDtoConverter.toPublication(publicationDto);
+        publication.setPublishedAt(Timestamp.from(Instant.now()));
         Publication newPublication = publicationRepository.saveAndFlush(publication);
         return publicationDtoConverter.toPublicationDto(newPublication);
     }
@@ -73,6 +77,14 @@ public class PublicationServiceImpl implements PublicationService{
     @Override
     public List<PublicationDto> getFavoritePublicationsByUserId(Long userId) {
         List<Publication> publications = publicationRepository.getPublicationsByChoosenAsFavoriteByAndUserId(userId);
+        return publications.stream()
+                .map(publicationDtoConverter::toPublicationDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PublicationDto> getAllPublications() {
+        List<Publication> publications = publicationRepository.findAll();
         return publications.stream()
                 .map(publicationDtoConverter::toPublicationDto)
                 .collect(Collectors.toList());

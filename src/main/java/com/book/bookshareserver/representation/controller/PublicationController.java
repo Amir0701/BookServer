@@ -49,4 +49,9 @@ public class PublicationController {
     public ResponseEntity<List<PublicationDto>> getFavoritePublicationByUserId(@RequestParam Long userId){
         return ResponseEntity.ok(publicationService.getFavoritePublicationsByUserId(userId));
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<PublicationDto>> getAllPublications(){
+        return ResponseEntity.ok(publicationService.getAllPublications());
+    }
 }

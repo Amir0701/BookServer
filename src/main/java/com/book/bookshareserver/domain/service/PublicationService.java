@@ -13,4 +13,5 @@ public interface PublicationService {
     List<PublicationDto> getPublicationsByCityAndCategory(Long cityId, Long categoryId);
     PublicationDto addPublication(PublicationDto publicationDto);
     List<PublicationDto> getFavoritePublicationsByUserId(Long userId);
+    List<PublicationDto> getAllPublications();
 }

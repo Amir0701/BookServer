@@ -11,6 +11,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findByEmail(String email);
 
     // todo дописать запрос
-    @Query(value = "insert into favorites (user_id, publication_id) values (:userId, :publicationId)", nativeQuery = true)
+    @Query(value = "insert into favorite (user_id, publication_id) values (:userId, :publicationId)", nativeQuery = true)
     void markPublicationAsFavorite(@Param("userId") Long userId, @Param("publicationId") Long publicationId);
 }
