@@ -106,6 +106,14 @@ public class User {
         this.refreshTokenList = refreshTokenList;
     }
 
+    public List<Publication> getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(List<Publication> favorites) {
+        this.favorites = favorites;
+    }
+
     public User(){
 
     }

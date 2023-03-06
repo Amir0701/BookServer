@@ -15,6 +15,6 @@ public interface PublicationRepository extends JpaRepository<Publication, Long> 
 
     List<Publication> getPublicationsByCityAndCategory(Long cityId, Long categoryId);
 
-    @Query(value = "SELECT * FROM publication INNER JOIN favorite ON publication.id = favorite.publication_id WHERE favorite.user_id = :userId", nativeQuery = true)
+    @Query(value = "SELECT DISTINCT * FROM publication INNER JOIN favorite ON publication.id = favorite.publication_id WHERE favorite.user_id = :userId", nativeQuery = true)
     List<Publication> getPublicationsByChoosenAsFavoriteByAndUserId(Long userId);
 }
