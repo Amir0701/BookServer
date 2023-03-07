@@ -54,4 +54,9 @@ public class PublicationController {
     public ResponseEntity<List<PublicationDto>> getAllPublications(){
         return ResponseEntity.ok(publicationService.getAllPublications());
     }
+
+    @GetMapping(value = "/search", params = "name")
+    public ResponseEntity<List<PublicationDto>> getPublicationsByName(@RequestParam String name){
+        return ResponseEntity.ok(publicationService.getPublicationsByName(name));
+    }
 }

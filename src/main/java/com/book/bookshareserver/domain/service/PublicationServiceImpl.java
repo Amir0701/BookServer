@@ -6,11 +6,9 @@ import com.book.bookshareserver.representation.dto.PublicationDto;
 import com.book.bookshareserver.representation.dto.converter.PublicationDtoConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -85,6 +83,14 @@ public class PublicationServiceImpl implements PublicationService{
     @Override
     public List<PublicationDto> getAllPublications() {
         List<Publication> publications = publicationRepository.findAll();
+        return publications.stream()
+                .map(publicationDtoConverter::toPublicationDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PublicationDto> getPublicationsByName(String name) {
+        List<Publication> publications = publicationRepository.getPublicationsByName(name);
         return publications.stream()
                 .map(publicationDtoConverter::toPublicationDto)
                 .collect(Collectors.toList());
