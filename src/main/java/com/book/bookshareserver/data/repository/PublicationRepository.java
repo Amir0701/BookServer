@@ -19,8 +19,6 @@ public interface PublicationRepository extends JpaRepository<Publication, Long> 
     @Query(value = "SELECT DISTINCT * FROM publication INNER JOIN favorite ON publication.id = favorite.publication_id WHERE favorite.user_id = :userId", nativeQuery = true)
     List<Publication> getPublicationsByChoosenAsFavoriteByAndUserId(Long userId);
 
-//    @Query(value = "SELECT p FROM Publication p WHERE p.name ILIKE co '%:name%' ", nativeQuery = true)
-//    List<Publication> getPublicationsByName(@Param("name") String name);
     @Query(value = "SELECT p FROM Publication p WHERE upper(p.name) LIKE CONCAT('%', upper(:name), '%') ")
     List<Publication> getPublicationsByName(@Param("name") String name);
 

@@ -1,8 +1,10 @@
 package com.book.bookshareserver.representation.controller;
 
 import com.book.bookshareserver.domain.service.UserService;
+import com.book.bookshareserver.representation.dto.PasswordDto;
 import com.book.bookshareserver.representation.dto.UserDto;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,5 +31,11 @@ public class UserController {
     @GetMapping
     public ResponseEntity<UserDto> getAuthUser(){
         return ResponseEntity.ok(userService.getAuthUser());
+    }
+
+    @PutMapping("/password")
+    public ResponseEntity<UserDto> changePassword(@RequestBody PasswordDto passwordDto,
+                                                  BindingResult bindingResult){
+        return ResponseEntity.ok(userService.changePassword(passwordDto, bindingResult));
     }
 }
