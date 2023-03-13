@@ -14,4 +14,5 @@ public interface UserService {
     User getCurrentUser();
     UserDto getAuthUser();
     UserDto changePassword(PasswordDto passwordDto, BindingResult bindingResult);
+    UserDto updateUser(UserDto userDto, BindingResult bindingResult);
 }

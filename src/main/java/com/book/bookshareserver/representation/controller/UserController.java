@@ -38,4 +38,10 @@ public class UserController {
                                                   BindingResult bindingResult){
         return ResponseEntity.ok(userService.changePassword(passwordDto, bindingResult));
     }
+
+    @PutMapping("/edit")
+    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto,
+                                              BindingResult bindingResult){
+        return ResponseEntity.ok(userService.updateUser(userDto, bindingResult));
+    }
 }

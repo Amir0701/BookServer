@@ -102,6 +102,27 @@ public class UserServiceImpl implements UserService{
         //throw new InvalidEntityException(new ArrayList<>());
     }
 
+    @Override
+    public UserDto updateUser(UserDto userDto, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            throw new InvalidEntityException(
+                    bindingResult.getFieldErrors()
+                            .stream()
+                            .map(FieldError::getDefaultMessage)
+                            .collect(Collectors.toList())
+            );
+        }
+
+        User user = getCurrentUser();
+        User updatedUser = userDtoConverter.toUser(userDto);
+        user.setPhoneNumber(updatedUser.getPhoneNumber());
+        user.setEmail(updatedUser.getEmail());
+        user.setName(updatedUser.getName());
+
+        userRepository.saveAndFlush(user);
+        return userDtoConverter.toUserDto(updatedUser);
+    }
+
     private void checkUniqueEmail(User user){
         if(userRepository.existsByEmail(user.getEmail())){
             throw new EntityExistsException();
