@@ -16,6 +16,8 @@ public class Publication {
 
     private String description;
 
+    private String author;
+
     @Column(nullable = false)
     private Timestamp publishedAt;
 
@@ -106,7 +108,15 @@ public class Publication {
         this.images = images;
     }
 
-//    public List<FavPub> getFavPubs() {
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    //    public List<FavPub> getFavPubs() {
 //        return favPubs;
 //    }
 //

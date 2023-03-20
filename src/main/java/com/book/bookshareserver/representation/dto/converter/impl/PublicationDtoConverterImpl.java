@@ -34,6 +34,7 @@ public class PublicationDtoConverterImpl implements PublicationDtoConverter {
         publication.setCategory(categoryDtoConverter.toCategory(publicationDto.getCategory()));
         publication.setCity(cityDtoConverter.toCity(publicationDto.getCityDto()));
         publication.setUser(new User(publicationDto.getUserId()));
+        publication.setAuthor(publicationDto.getAuthor());
         publication.setImages(publicationDto.getImagesDto()
                 .stream()
                 .map(imageDtoConverter::toImage)
@@ -51,6 +52,7 @@ public class PublicationDtoConverterImpl implements PublicationDtoConverter {
         publicationDto.setCityDto(cityDtoConverter.toCityDto(publication.getCity()));
         publicationDto.setCategory(categoryDtoConverter.toCategoryDto(publication.getCategory()));
         publicationDto.setUserId(publication.getUser().getId());
+        publicationDto.setAuthor(publication.getAuthor());
         publicationDto.setImagesDto(publication.getImages()
                 .stream()
                 .map(imageDtoConverter::toImageDto)

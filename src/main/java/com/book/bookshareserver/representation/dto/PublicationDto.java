@@ -10,6 +10,7 @@ public class PublicationDto {
     private CityDto city;
     private String description;
     private String name;
+    private String author;
     private Timestamp publishedAt;
     private List<ImageDto> images;
 
@@ -75,5 +76,13 @@ public class PublicationDto {
 
     public void setImagesDto(List<ImageDto> images) {
         this.images = images;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }
