@@ -2,6 +2,7 @@ package com.book.bookshareserver.representation.dto.converter.impl;
 
 import com.book.bookshareserver.data.model.Publication;
 import com.book.bookshareserver.data.model.User;
+import com.book.bookshareserver.domain.service.ImageService;
 import com.book.bookshareserver.representation.dto.PublicationDto;
 import com.book.bookshareserver.representation.dto.converter.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +15,17 @@ public class PublicationDtoConverterImpl implements PublicationDtoConverter {
     private final ImageDtoConverter imageDtoConverter;
     private final CategoryDtoConverter categoryDtoConverter;
     private final CityDtoConverter cityDtoConverter;
+    private final ImageService imageService;
 
     @Autowired
     public PublicationDtoConverterImpl(ImageDtoConverter imageDtoConverter,
                                        CategoryDtoConverter categoryDtoConverter,
-                                       CityDtoConverter cityDtoConverter){
+                                       CityDtoConverter cityDtoConverter,
+                                       ImageService imageService){
         this.imageDtoConverter = imageDtoConverter;
         this.categoryDtoConverter = categoryDtoConverter;
         this.cityDtoConverter = cityDtoConverter;
+        this.imageService = imageService;
     }
 
     @Override
@@ -56,6 +60,11 @@ public class PublicationDtoConverterImpl implements PublicationDtoConverter {
         publicationDto.setImagesDto(publication.getImages()
                 .stream()
                 .map(imageDtoConverter::toImageDto)
+                .collect(Collectors.toList()));
+
+        publicationDto.setPublicationImages(publication.getImages()
+                .stream()
+                .map(file-> imageService.downloadImage(file.getPath()))
                 .collect(Collectors.toList()));
         return publicationDto;
     }

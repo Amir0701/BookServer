@@ -13,6 +13,7 @@ public class PublicationDto {
     private String author;
     private Timestamp publishedAt;
     private List<ImageDto> images;
+    private List<byte[]> publicationImages;
 
     public Long getId() {
         return id;
@@ -84,5 +85,13 @@ public class PublicationDto {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public List<byte[]> getPublicationImages() {
+        return publicationImages;
+    }
+
+    public void setPublicationImages(List<byte[]> publicationImages) {
+        this.publicationImages = publicationImages;
     }
 }
