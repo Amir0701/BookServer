@@ -10,4 +10,6 @@ import java.util.List;
 public interface ImageService {
     List<Image> addImage(MultipartFile[] multipartFiles, Publication publication);
     void addImage(MultipartFile[] multipartFiles, Long publicationId);
+    void addImages(MultipartFile[] multipartFiles, Long publicationId);
+    byte[] downloadImage(String fileName);
 }

@@ -1,5 +1,9 @@
 package com.book.bookshareserver.domain.service;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.amazonaws.util.IOUtils;
 import com.book.bookshareserver.data.model.Image;
 import com.book.bookshareserver.data.model.Publication;
 import com.book.bookshareserver.data.repository.ImageRepository;
@@ -7,10 +11,13 @@ import com.book.bookshareserver.data.repository.PublicationRepository;
 import com.book.bookshareserver.representation.dto.ImageDto;
 import com.book.bookshareserver.representation.dto.converter.ImageDtoConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -26,14 +33,20 @@ public class ImageServiceImpl implements ImageService{
     private final ImageRepository imageRepository;
     private final PublicationRepository publicationRepository;
     private final ImageDtoConverter imageDtoConverter;
+    private final AmazonS3 amazonS3;
+
+    @Value("${bucketName}")
+    private String bucketName;
 
     @Autowired
     public ImageServiceImpl(ImageRepository imageRepository,
                             PublicationRepository publicationRepository,
-                            ImageDtoConverter imageDtoConverter){
+                            ImageDtoConverter imageDtoConverter,
+                            AmazonS3 amazonS3){
         this.imageRepository = imageRepository;
         this.publicationRepository = publicationRepository;
         this.imageDtoConverter = imageDtoConverter;
+        this.amazonS3 = amazonS3;
     }
 
 
@@ -81,5 +94,42 @@ public class ImageServiceImpl implements ImageService{
 //            return images.stream()
 //                    .map(imageDtoConverter::toImageDto)
 //                    .collect(Collectors.toList());
+    }
+
+    @Override
+    public void addImages(MultipartFile[] multipartFiles, Long publicationId) {
+        for (MultipartFile file: multipartFiles){
+            File convertedFile = convertMultipartFileToFile(file);
+            String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+            amazonS3.putObject(bucketName, fileName, convertedFile);
+            Image image = new Image();
+            image.setPath(fileName);
+            image.setPublication(publicationRepository.findById(publicationId).get());
+            imageRepository.saveAndFlush(image);
+        }
+    }
+
+    @Override
+    public byte[] downloadImage(String fileName) {
+        S3Object s3Object = amazonS3.getObject(bucketName, fileName);
+        S3ObjectInputStream inputStream = s3Object.getObjectContent();
+        try {
+            return IOUtils.toByteArray(inputStream);
+        }catch (IOException ioException){
+            ioException.printStackTrace();
+        }
+        return null;
+    }
+
+    private File convertMultipartFileToFile(MultipartFile multipartFile){
+        File file = new File(multipartFile.getOriginalFilename());
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            fileOutputStream.write(multipartFile.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return file;
     }
 }
