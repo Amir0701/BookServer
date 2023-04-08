@@ -106,6 +106,7 @@ public class ImageServiceImpl implements ImageService{
             image.setPath(fileName);
             image.setPublication(publicationRepository.findById(publicationId).get());
             imageRepository.saveAndFlush(image);
+            convertedFile.delete();
         }
     }
 
