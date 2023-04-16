@@ -6,12 +6,14 @@ import java.util.List;
 public class PublicationDto {
     private Long id;
     private Long userId;
-    private Long categoryId;
-    private Long cityId;
+    private CategoryDto category;
+    private CityDto city;
     private String description;
     private String name;
+    private String author;
     private Timestamp publishedAt;
     private List<ImageDto> images;
+    private List<byte[]> publicationImages;
 
     public Long getId() {
         return id;
@@ -29,20 +31,20 @@ public class PublicationDto {
         this.userId = userId;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
+    public CategoryDto getCategory() {
+        return category;
     }
 
-    public void setCategoryId(Long id) {
-        this.categoryId = categoryId;
+    public void setCategory(CategoryDto categoryDto) {
+        this.category = categoryDto;
     }
 
-    public Long getCityId() {
-        return cityId;
+    public CityDto getCityDto() {
+        return city;
     }
 
-    public void setCityId(Long city) {
-        this.cityId = cityId;
+    public void setCityDto(CityDto cityDto) {
+        this.city = cityDto;
     }
 
     public String getDescription() {
@@ -75,5 +77,21 @@ public class PublicationDto {
 
     public void setImagesDto(List<ImageDto> images) {
         this.images = images;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public List<byte[]> getPublicationImages() {
+        return publicationImages;
+    }
+
+    public void setPublicationImages(List<byte[]> publicationImages) {
+        this.publicationImages = publicationImages;
     }
 }

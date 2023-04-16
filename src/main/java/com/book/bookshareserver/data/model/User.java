@@ -30,6 +30,26 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<RefreshToken> refreshTokenList;
 
+
+    @ManyToMany
+    @JoinTable(
+            name = "favorite",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "publication_id"))
+    private List<Publication> favorites;
+
+
+//    @OneToOne(mappedBy = "user")
+//    private Favorite favorite;
+//
+//    public Favorite getFavorite() {
+//        return favorite;
+//    }
+//
+//    public void setFavorite(Favorite favorite) {
+//        this.favorite = favorite;
+//    }
+
     public Long getId() {
         return id;
     }
@@ -84,6 +104,14 @@ public class User {
 
     public void setRefreshTokenList(List<RefreshToken> refreshTokenList) {
         this.refreshTokenList = refreshTokenList;
+    }
+
+    public List<Publication> getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(List<Publication> favorites) {
+        this.favorites = favorites;
     }
 
     public User(){
