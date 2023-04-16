@@ -15,4 +15,5 @@ public interface PublicationService {
     List<PublicationDto> getFavoritePublicationsByUserId(Long userId);
     List<PublicationDto> getAllPublications();
     List<PublicationDto> getPublicationsByName(String name);
+    PublicationDto updatePublication(PublicationDto publicationDto);
 }

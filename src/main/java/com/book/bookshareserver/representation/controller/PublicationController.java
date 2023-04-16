@@ -59,4 +59,9 @@ public class PublicationController {
     public ResponseEntity<List<PublicationDto>> getPublicationsByName(@RequestParam String name){
         return ResponseEntity.ok(publicationService.getPublicationsByName(name));
     }
+
+    @PutMapping
+    public ResponseEntity<PublicationDto> updatePublication(@RequestBody PublicationDto publicationDto){
+        return ResponseEntity.ok(publicationService.updatePublication(publicationDto));
+    }
 }
